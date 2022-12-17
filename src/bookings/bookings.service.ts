@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BookingsEntity } from './booking.entity';
-import { BookingsDTO } from './bookings.dto';
+import { BookingsDTO } from './booking.dto';
 
 @Injectable()
 export class BookingsService {
@@ -13,21 +13,30 @@ export class BookingsService {
 
     ) { }
 
-    async createBooking(createBookingsDTO: BookingsDTO) {
+    async createBooking(createBookingsDTO: BookingsDTO): Promise<any> {
         const {
-            starts_at,
-            booked_at,
-            booked_for,
-            appartments_id,
-            users_id
+            startsAt,
+            bookedAt,
+            bookedFor,
+            apartment,
+            user
         } = createBookingsDTO
 
         const booking: BookingsEntity = this.bookingsRepository.create({
-            starts_at,
-            booked_at,
-            booked_for,
-            appartments_id,
-            users_id
+
+            startsAt,
+            bookedAt,
+            bookedFor,
+            apartment,
+            user
         })
+
+        try {
+
+        } catch (error) {
+            await booking.save()
+
+
+        }
     }
 }

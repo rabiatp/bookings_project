@@ -1,9 +1,9 @@
 import { BookingsEntity } from "src/bookings/booking.entity";
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 @Entity()
-export class AppartmentsEntity extends BaseEntity {
+export class ApartmentsEntity extends BaseEntity {
     @PrimaryColumn('uuid')
-    id: number
+    id: string
 
     @Column()
     name: string
@@ -11,16 +11,16 @@ export class AppartmentsEntity extends BaseEntity {
     @Column()
     city: string
 
-    @Column()
-    zip_code: string
+    @Column({ name: 'zip_code' })
+    zipCode: string
 
-    @Column()
-    adress: string
+    @Column({ name: 'address' })
+    address: string
 
     @Column()
     country: string
 
-    @ManyToOne(() => BookingsEntity, bookings => bookings.appartments_id)
+    @ManyToOne(() => BookingsEntity, bookings => bookings.apartment)
     bookings: BookingsEntity
 
 

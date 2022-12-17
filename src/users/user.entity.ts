@@ -4,13 +4,13 @@ import { BaseEntity, Column, Entity, ManyToOne, ObjectType, PrimaryColumn } from
 @Entity()
 export class UsersEntity extends BaseEntity {
     @PrimaryColumn('uuid')
-    id: number
+    id: string
 
-    @Column()
-    first_name: string
+    @Column({ name: 'first_name' })
+    firstName: string
 
-    @Column()
-    last_name: string
+    @Column({ name: 'last_name' })
+    lastName: string
 
     @Column()
     phone: string
@@ -18,7 +18,7 @@ export class UsersEntity extends BaseEntity {
     @Column()
     email: string
 
-    @ManyToOne(() => BookingsEntity, bookings => bookings.user_id)
+    @ManyToOne(() => BookingsEntity, bookings => bookings.user)
     bookings: BookingsEntity
 
 }

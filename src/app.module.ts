@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApartmentsEntity } from './apartments/apartment.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { BookingsController } from './bookings/bookings.controller';
+import { BookingsController } from './bookings/booking.controller';
 import { BookingsService } from './bookings/bookings.service';
+import { UsersEntity } from './users/user.entity';
+import { BookingModule } from './bookings/booking.module';
 
 @Module({
   imports: [
@@ -16,10 +19,13 @@ import { BookingsService } from './bookings/bookings.service';
       database: 'websites1671180840056xjxyzqbmdhmsbvna',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+
     }),
-   
+    ApartmentsEntity,
+    UsersEntity,
+    BookingModule
   ],
-  controllers: [AppController, BookingsController],
-  providers: [AppService, BookingsService],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

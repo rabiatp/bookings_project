@@ -1,27 +1,29 @@
-import { AppartmentsEntity } from "src/appartments/appartments.entity"
-import { UsersEntity } from "src/users/users.entity"
-import { Entity, Column, BaseEntity, PrimaryColumn, OneToMany } from "typeorm"
+import { ApartmentsEntity } from "src/apartments/apartment.entity"
+import { UsersEntity } from "src/users/user.entity"
+import { Entity, Column, BaseEntity, PrimaryColumn, OneToMany, JoinColumn } from "typeorm"
 
 @Entity()
 export class BookingsEntity extends BaseEntity {
     @PrimaryColumn('uuid')
-    id: number
+    id: string
 
     @OneToMany(() => UsersEntity, user_id => user_id.bookings)
-    users_id: UsersEntity
+    @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+    user: UsersEntity[]
 
-    @Column('date')
-    starts_at: Date
+    @Column({ type: 'date', name: 'starts_at' })
+    startsAt: Date
 
-    @Column('date')
-    booked_at: Date
+    @Column({ type: 'date', name: 'booked_at' })
+    bookedAt: Date
 
-    @Column('integer')
-    booked_for: number
+    @Column({ type: 'integer', name: 'booked_for' })
+    bookedFor: number
 
-    @OneToMany(() => AppartmentsEntity, apartment_id => apartment_id.bookings)
-    appartments_id: AppartmentsEntity
+    @OneToMany(() => ApartmentsEntity, apartments_id => apartments_id.bookings)
+    @JoinColumn({ name: 'apartment_id', referencedColumnName: 'id' })
+    apartment: ApartmentsEntity[]
 
     @Column()
-    confirmed: number
+    confirmed: boolean
 }

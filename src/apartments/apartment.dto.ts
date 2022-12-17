@@ -1,6 +1,6 @@
 import { IsString } from "class-validator";
 
-export class AppartmentsDTO {
+export class ApartmentsDTO {
 
     @IsString()
     name: string
@@ -9,10 +9,10 @@ export class AppartmentsDTO {
     city: string
 
     @IsString()
-    zip_code: string
+    zipCode: string
 
     @IsString()
-    adress: string
+    address: string
 
     @IsString()
     country: string

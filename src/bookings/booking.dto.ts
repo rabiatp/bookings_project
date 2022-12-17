@@ -1,18 +1,21 @@
 import { plainToClass, Transform, Type } from "class-transformer";
-import { IsDate, IsNumber, IsString, ValidateNested } from "class-validator";
-import { AppartmentsDTO } from "src/appartments/appartments.dto";
-import { UsersDTO } from "src/users/users.dto";
+import { IsBoolean, IsDate, IsNumber, IsString, ValidateNested } from "class-validator";
+import { ApartmentsDTO } from "src/apartments/apartment.dto";
+import { UsersDTO } from "src/users/user.dto";
 
 
 export class BookingsDTO {
     @IsDate()
-    starts_at: Date
+    startsAt: Date
 
     @IsDate()
-    booked_at: Date
+    bookedAt: Date
 
     @IsNumber()
-    booked_for: number
+    bookedFor: number
+
+    @IsBoolean()
+    confirmed: boolean
 
     @ValidateNested()
     @Type(() => UsersDTO)
@@ -25,19 +28,19 @@ export class BookingsDTO {
         }
         return object.value;
     })
-    users_id: UsersDTO
+    user: UsersDTO[]
 
     @ValidateNested()
-    @Type(() => AppartmentsDTO)
+    @Type(() => ApartmentsDTO)
     @Transform((object) => {
         if (object.type === 0) {
             object.value = plainToClass(
-                AppartmentsDTO,
+                ApartmentsDTO,
                 object.value,
             );
         }
         return object.value;
     })
-    appartments_id: AppartmentsDTO
+    apartment: ApartmentsDTO[]
 
 }

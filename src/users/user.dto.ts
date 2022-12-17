@@ -1,13 +1,13 @@
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { IsString } from "class-validator";
 
 export class UsersDTO {
 
 
     @IsString()
-    first_name: string
+    firstName: string
 
     @IsString()
-    last_name: string
+    lastName: string
 
     @IsString()
     phone: string
