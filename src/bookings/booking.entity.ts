@@ -1,26 +1,44 @@
+import { IsNumber } from "class-validator"
 import { ApartmentsEntity } from "src/apartments/apartment.entity"
 import { UsersEntity } from "src/users/user.entity"
-import { Entity, Column, BaseEntity, PrimaryColumn, OneToMany, JoinColumn } from "typeorm"
+import { Entity, Column, BaseEntity, PrimaryColumn, OneToMany, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm"
 
 @Entity()
 export class BookingsEntity extends BaseEntity {
-    @PrimaryColumn('uuid')
+    @PrimaryGeneratedColumn()
     id: string
 
-    @OneToMany(() => UsersEntity, user_id => user_id.bookings)
-    @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-    user: UsersEntity[]
+    // @Column({ name: 'user_id' })
+    // userId: string;
 
-    @Column({ type: 'date', name: 'starts_at' })
+    @ManyToOne(() => UsersEntity, user_id => user_id.booking,
+        {
+            eager: false,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
+    @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+    user: UsersEntity
+
+    @CreateDateColumn({ type: 'date', name: 'starts_at' })
     startsAt: Date
 
-    @Column({ type: 'date', name: 'booked_at' })
+    @CreateDateColumn({ type: 'date', name: 'booked_at' })
     bookedAt: Date
 
-    @Column({ type: 'integer', name: 'booked_for' })
+    @IsNumber()
+    @Column({ name: 'booked_for' })
     bookedFor: number
 
-    @OneToMany(() => ApartmentsEntity, apartments_id => apartments_id.bookings)
+    // @Column({ name: 'apartment_id' })
+    // apartmentId: string;
+
+    @ManyToOne(() => ApartmentsEntity, apartments_id => apartments_id.bookings,
+        {
+            eager: false,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
     @JoinColumn({ name: 'apartment_id', referencedColumnName: 'id' })
     apartment: ApartmentsEntity[]
 

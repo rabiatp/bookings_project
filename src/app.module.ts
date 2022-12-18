@@ -7,6 +7,7 @@ import { BookingsController } from './bookings/booking.controller';
 import { BookingsService } from './bookings/bookings.service';
 import { UsersEntity } from './users/user.entity';
 import { BookingModule } from './bookings/booking.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { BookingModule } from './bookings/booking.module';
     }),
     ApartmentsEntity,
     UsersEntity,
-    BookingModule
+    BookingModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],

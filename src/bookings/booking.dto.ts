@@ -17,30 +17,4 @@ export class BookingsDTO {
     @IsBoolean()
     confirmed: boolean
 
-    @ValidateNested()
-    @Type(() => UsersDTO)
-    @Transform((object) => {
-        if (object.type === 0) {
-            object.value = plainToClass(
-                UsersDTO,
-                object.value,
-            );
-        }
-        return object.value;
-    })
-    user: UsersDTO[]
-
-    @ValidateNested()
-    @Type(() => ApartmentsDTO)
-    @Transform((object) => {
-        if (object.type === 0) {
-            object.value = plainToClass(
-                ApartmentsDTO,
-                object.value,
-            );
-        }
-        return object.value;
-    })
-    apartment: ApartmentsDTO[]
-
 }

@@ -1,5 +1,5 @@
 import { BookingsEntity } from "src/bookings/booking.entity";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 @Entity()
 export class ApartmentsEntity extends BaseEntity {
     @PrimaryColumn('uuid')
@@ -20,8 +20,8 @@ export class ApartmentsEntity extends BaseEntity {
     @Column()
     country: string
 
-    @ManyToOne(() => BookingsEntity, bookings => bookings.apartment)
-    bookings: BookingsEntity
+    @OneToMany(() => BookingsEntity, bookings => bookings.apartment)
+    bookings: BookingsEntity[]
 
 
 }

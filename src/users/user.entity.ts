@@ -1,5 +1,5 @@
 import { BookingsEntity } from "src/bookings/booking.entity";
-import { BaseEntity, Column, Entity, ManyToOne, ObjectType, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, ObjectType, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class UsersEntity extends BaseEntity {
@@ -15,10 +15,14 @@ export class UsersEntity extends BaseEntity {
     @Column()
     phone: string
 
-    @Column()
+    @Column({ unique: true })
     email: string
 
-    @ManyToOne(() => BookingsEntity, bookings => bookings.user)
-    bookings: BookingsEntity
+    @OneToMany(() => BookingsEntity, bookings => bookings.user,
+    {   eager: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    booking: BookingsEntity[]
 
 }
