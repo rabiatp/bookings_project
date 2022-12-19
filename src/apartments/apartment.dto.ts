@@ -1,5 +1,6 @@
 import { plainToClass, Transform, Type } from "class-transformer";
 import { IsString, ValidateNested } from "class-validator";
+import { BookingsDTO } from "src/bookings/booking.dto";
 import { BookingsEntity } from "src/bookings/booking.entity";
 
 export class ApartmentsDTO {
@@ -14,21 +15,20 @@ export class ApartmentsDTO {
     zipCode: string
 
     @IsString()
-    address: string
+    apartmentAddress: string
 
     @IsString()
     country: string
-
     @ValidateNested()
-    @Type(() => BookingsEntity)
+    @Type(() => BookingsDTO)
     @Transform((object) => {
         if (object.type === 0) {
             object.value = plainToClass(
-                BookingsEntity,
+                BookingsDTO,
                 object.value,
             );
         }
         return object.value;
     })
-    booking: BookingsEntity
+    booking: BookingsDTO
 }

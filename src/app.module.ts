@@ -7,7 +7,8 @@ import { BookingsController } from './bookings/booking.controller';
 import { BookingsService } from './bookings/bookings.service';
 import { UsersEntity } from './users/user.entity';
 import { BookingModule } from './bookings/booking.module';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './users/user.module';
+import { ApartmentsModule } from './apartments/apartment.module';
 
 @Module({
   imports: [
@@ -22,10 +23,9 @@ import { UsersModule } from './users/users.module';
       synchronize: true,
 
     }),
-    ApartmentsEntity,
-    UsersEntity,
     BookingModule,
-    UsersModule
+    UsersModule,
+    ApartmentsModule
   ],
   controllers: [AppController],
   providers: [AppService],

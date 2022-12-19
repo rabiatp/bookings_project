@@ -1,9 +1,9 @@
 import { BookingsEntity } from "src/bookings/booking.entity";
-import { BaseEntity, Column, Entity, ManyToOne, ObjectType, OneToMany, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, ObjectType, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class UsersEntity extends BaseEntity {
-    @PrimaryColumn('uuid')
+    @PrimaryGeneratedColumn('increment')
     id: string
 
     @Column({ name: 'first_name' })
@@ -19,10 +19,12 @@ export class UsersEntity extends BaseEntity {
     email: string
 
     @OneToMany(() => BookingsEntity, bookings => bookings.user,
-    {   eager: true,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    })
+        {
+            eager: true,
+            cascade: true,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
     booking: BookingsEntity[]
 
 }

@@ -5,22 +5,17 @@ import { BookingsEntity } from "src/bookings/booking.entity";
 
 export class UsersDTO {
 
-
     @IsString()
-    @IsNotEmpty()
     firstName: string
 
     @IsString()
-    @IsNotEmpty()
     lastName: string
 
     @IsString()
-    @IsNotEmpty()
-    // @Matches(/^\+[1-9]\d{1,14}$/)
+    @Matches(/^\+[1-9]\d{1,14}$/)
     phone: string;
 
     @IsEmail()
-    @IsNotEmpty()
     email: string
 
     @ValidateNested()
@@ -35,4 +30,6 @@ export class UsersDTO {
         return object.value;
     })
     booking: BookingsDTO
+
+
 }

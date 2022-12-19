@@ -1,9 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { createQueryBuilder, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { BookingsEntity } from './booking.entity';
 import { BookingsDTO } from './booking.dto';
 import { UsersEntity } from 'src/users/user.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class BookingsService {
@@ -12,28 +13,24 @@ export class BookingsService {
         @InjectRepository(BookingsEntity)
         private bookingsRepository: Repository<BookingsEntity>,
 
-        @InjectRepository(UsersEntity)
-        private userRepository: Repository<UsersEntity>
-
     ) { }
 
-    async createBooking(userId: string, createBookings: BookingsDTO): Promise<BookingsEntity> {
-        const { startsAt, bookedAt, bookedFor } = createBookings
+    async createBooking(createBookings: BookingsDTO): Promise<BookingsEntity> {
+        const { userId, apartmentId, startsAt, bookedAt, bookedFor, confirmed } = createBookings
         const booking: BookingsEntity = this.bookingsRepository.create({
+            userId,
+            apartmentId,
             startsAt,
             bookedAt,
             bookedFor,
+            confirmed
         })
-        const newBooking = await this.bookingsRepository.save(booking)
-
-        const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['booking'] })
-        user.booking.push(booking)
-
-        await this.userRepository.save(booking)
-
-        return newBooking
-
-
+        try {
+            await booking.save();
+            return booking;
+        } catch (error) {
+            throw new NotFoundException(error)
+        }
     }
 
     async getAll() {

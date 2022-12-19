@@ -1,8 +1,8 @@
 import { BookingsEntity } from "src/bookings/booking.entity";
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class ApartmentsEntity extends BaseEntity {
-    @PrimaryColumn('uuid')
+    @PrimaryGeneratedColumn()
     id: string
 
     @Column()
@@ -15,13 +15,18 @@ export class ApartmentsEntity extends BaseEntity {
     zipCode: string
 
     @Column({ name: 'address' })
-    address: string
+    apartmentAddress: string
 
     @Column()
     country: string
 
-    @OneToMany(() => BookingsEntity, bookings => bookings.apartment)
-    bookings: BookingsEntity[]
+    @OneToMany(() => BookingsEntity, bookings => bookings.apartment,
+        {
+            eager: true,
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
+    booking: BookingsEntity[]
 
 
 }

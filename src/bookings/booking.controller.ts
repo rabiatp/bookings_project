@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { UsersController } from 'src/users/users.controller';
 import { BookingsDTO } from './booking.dto';
 import { BookingsService } from './bookings.service';
 
@@ -17,8 +16,8 @@ export class BookingsController {
     }
 
     @Post()
-    createBooking(@Param('id') userId, @Body() createBooking: BookingsDTO) {
-        return this.bookingService.createBooking(userId, createBooking);
+    createBooking(@Body() createBooking: BookingsDTO) {
+        return this.bookingService.createBooking(createBooking);
     }
 
     @Delete(':id')

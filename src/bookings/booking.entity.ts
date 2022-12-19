@@ -1,15 +1,15 @@
 import { IsNumber } from "class-validator"
 import { ApartmentsEntity } from "src/apartments/apartment.entity"
 import { UsersEntity } from "src/users/user.entity"
-import { Entity, Column, BaseEntity, PrimaryColumn, OneToMany, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm"
+import { Entity, Column, BaseEntity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm"
 
 @Entity()
 export class BookingsEntity extends BaseEntity {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment')
     id: string
 
-    // @Column({ name: 'user_id' })
-    // userId: string;
+    @Column({ nullable: true, name: 'user_id' })
+    userId: string;
 
     @ManyToOne(() => UsersEntity, user_id => user_id.booking,
         {
@@ -30,14 +30,14 @@ export class BookingsEntity extends BaseEntity {
     @Column({ name: 'booked_for' })
     bookedFor: number
 
-    // @Column({ name: 'apartment_id' })
-    // apartmentId: string;
+    @Column({ nullable: true, name: 'apartment_id' })
+    apartmentId: string;
 
-    @ManyToOne(() => ApartmentsEntity, apartments_id => apartments_id.bookings,
+    @ManyToOne(() => ApartmentsEntity, apartment => apartment.booking,
         {
             eager: false,
+            cascade: true,
             onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
         })
     @JoinColumn({ name: 'apartment_id', referencedColumnName: 'id' })
     apartment: ApartmentsEntity[]
