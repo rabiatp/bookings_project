@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { BookingsDTO } from './booking.dto';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { BookingsDTO } from './dto/booking.dto';
 import { BookingsService } from './bookings.service';
+import { SearchParams } from './dto/filtering.dto';
 
 @Controller('bookings')
 export class BookingsController {
@@ -23,5 +24,10 @@ export class BookingsController {
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.bookingService.remove(id);
+    }
+
+    @Get('/getfilter')
+    getFindOne(@Query() searchParams: SearchParams) {
+        return this.bookingService.getFindOne(searchParams)
     }
 }

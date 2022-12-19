@@ -1,8 +1,5 @@
 import { plainToClass, Transform, Type } from "class-transformer";
 import { IsBoolean, IsDate, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
-import { ApartmentsDTO } from "src/apartments/apartment.dto";
-import { UsersDTO } from "src/users/user.dto";
-
 
 export class BookingsDTO {
     @IsString()

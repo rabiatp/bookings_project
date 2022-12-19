@@ -1,6 +1,6 @@
 import { plainToClass, Transform, Type } from "class-transformer";
 import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString, Matches, ValidateNested } from "class-validator";
-import { BookingsDTO } from "src/bookings/booking.dto";
+import { BookingsDTO } from "src/bookings/dto/booking.dto";
 import { BookingsEntity } from "src/bookings/booking.entity";
 
 export class UsersDTO {

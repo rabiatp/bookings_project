@@ -1,6 +1,6 @@
 import { plainToClass, Transform, Type } from "class-transformer";
 import { IsString, ValidateNested } from "class-validator";
-import { BookingsDTO } from "src/bookings/booking.dto";
+import { BookingsDTO } from "src/bookings/dto/booking.dto";
 import { BookingsEntity } from "src/bookings/booking.entity";
 
 export class ApartmentsDTO {
