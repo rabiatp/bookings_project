@@ -27,7 +27,7 @@ export class BookingsController {
     }
 
     @Get('/getfilter')
-    getFindOne(@Query() searchParams: SearchParams) {
-        return this.bookingService.getFindOne(searchParams)
+    getFilter(@Query() searchParams: SearchParams) {
+        return this.bookingService.getFilter(searchParams)
     }
 }

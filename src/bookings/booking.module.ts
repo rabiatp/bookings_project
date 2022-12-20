@@ -17,9 +17,6 @@ import { BookingsService } from './bookings.service';
             ApartmentsEntity,
             UsersEntity
         ])
-        // forwardRef(() => UsersModule),
-        //forwardRef(() => ApartmentsModule),
-
     ],
     exports: [ApartmentsService],
     controllers: [BookingsController],

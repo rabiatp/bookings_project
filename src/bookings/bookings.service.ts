@@ -17,20 +17,28 @@ export class BookingsService {
 
     ) { }
 
-    async createBooking(createBookings: BookingsDTO): Promise<BookingsEntity> {
-        const { userId, apartmentId, startsAt, bookedAt, bookedFor, confirmed } = createBookings
+    async createBooking(createBookings: BookingsDTO) {
+        const { userId, apartmentId, startsAt, bookedAt, confirmed } = createBookings
+        const date1: any = new Date(startsAt);
+        const date2: any = new Date(bookedAt);
+        const diffTime = Math.abs(date2 - date1);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const bookedFor = diffDays
+
         const booking: BookingsEntity = this.bookingsRepository.create({
             userId,
             apartmentId,
-            startsAt,
-            bookedAt,
+            startsAt: date1,
             bookedFor,
+            bookedAt: date2,
             confirmed
         })
         try {
             await booking.save();
             return booking;
         } catch (error) {
+            console.log(error);
+
             throw new NotFoundException(error)
         }
     }
@@ -45,7 +53,10 @@ export class BookingsService {
         return result;
     }
 
-    async getFindOne(searchParams: SearchParams) {
+    async getFilter(searchParams: SearchParams) {
+
+        console.log(searchParams);
+
         const {
             userName,
             userLastName,
@@ -55,27 +66,18 @@ export class BookingsService {
             confirmed,
         } = searchParams
 
-        const newquery = this.bookingsRepository
-            .createQueryBuilder('bookings')
-            .leftJoin('bookings.user', 'user')
-            .leftJoin('bookings.apartment', 'apartment')
-            .andWhere('"startAt" BETWEEN :startAt AND :bookedAt', { startAt: startAt, bookedAt: bookedAt })
-            .addSelect(['user', 'apartment'])
 
-        const result = newquery.andWhere(
-            `(LOWER(user.first_name) LIKE LOWER(:userName) 
-                AND LOWER(user.last_name) LIKE LOWER(:userLastName)
-                AND LOWER(apartment.name) LIKE LOWER(:apartmentName)
-                AND LOWER(bookings.confirmed) LIKE LOWER(:confirmed)
-                )`,
-            {
-                userName,
-                userLastName,
-                apartmentName,
-                confirmed
-            }
-        )
-        return result.getMany();
+        const query = this.bookingsRepository
+            .createQueryBuilder('bookings')
+            .leftJoinAndSelect('bookings.user', 'user')
+            .leftJoinAndSelect('bookings.apartment', 'apartment')
+            .where('"starts_at" BETWEEN :startAt AND :bookedAt', { startAt: startAt, bookedAt: bookedAt })
+            .andWhere('LOWER(user.first_name) LIKE LOWER(:userName)', { userName: `%${userName}%` })
+            .andWhere('LOWER(user.last_name) LIKE LOWER(:userLastName)', { userLastName: `%${userLastName}%` })
+            .orWhere('LOWER(apartment.name) LIKE LOWER(:apartmentName)', { apartmentName: `%${apartmentName}%` })
+            .orWhere('bookings.confirmed = :confirmed', { confirmed: confirmed })
+
+        return await query.getMany();
 
     }
 

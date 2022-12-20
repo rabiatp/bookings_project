@@ -1,7 +1,7 @@
 import { IsNumber } from "class-validator"
 import { ApartmentsEntity } from "src/apartments/apartment.entity"
 import { UsersEntity } from "src/users/user.entity"
-import { Entity, Column, BaseEntity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm"
+import { Entity, Column, BaseEntity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert } from "typeorm"
 
 @Entity()
 export class BookingsEntity extends BaseEntity {
@@ -26,9 +26,11 @@ export class BookingsEntity extends BaseEntity {
     @CreateDateColumn({ type: 'date', name: 'booked_at' })
     bookedAt: Date
 
-    @IsNumber()
     @Column({ name: 'booked_for' })
-    bookedFor: number
+    bookedFor?: number
+
+
+
 
     @Column({ nullable: true, name: 'apartment_id' })
     apartmentId: string;

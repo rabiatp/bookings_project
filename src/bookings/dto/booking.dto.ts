@@ -11,13 +11,11 @@ export class BookingsDTO {
     apartmentId?: string
 
     @IsDate()
-    startsAt: Date
+    startsAt: string
 
     @IsDate()
-    bookedAt: Date
+    bookedAt: string
 
-    @IsNumber()
-    bookedFor: number
 
     @IsBoolean()
     confirmed: boolean
