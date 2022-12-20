@@ -76,6 +76,7 @@ export class BookingsService {
             .andWhere('LOWER(user.last_name) LIKE LOWER(:userLastName)', { userLastName: `%${userLastName}%` })
             .orWhere('LOWER(apartment.name) LIKE LOWER(:apartmentName)', { apartmentName: `%${apartmentName}%` })
             .orWhere('bookings.confirmed = :confirmed', { confirmed: confirmed })
+            .limit(11)
 
         return await query.getMany();
 

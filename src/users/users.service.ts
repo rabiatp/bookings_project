@@ -2,7 +2,7 @@ import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException 
 import { InjectRepository } from '@nestjs/typeorm';
 import { BookingsEntity } from 'src/bookings/booking.entity';
 import { BookingsService } from 'src/bookings/bookings.service';
-import { getConnection, Repository, UpdateResult } from 'typeorm';
+import { createQueryBuilder, getConnection, Repository, UpdateResult } from 'typeorm';
 import { UsersDTO } from './user.dto';
 import { UsersEntity } from './user.entity';
 
@@ -40,7 +40,11 @@ export class UsersService {
 
     async findAll() {
         try {
-            return await this.userRepository.find();
+            return await this.userRepository
+                .createQueryBuilder('users')
+                .leftJoinAndSelect('users.booking', 'booking')
+                .limit(11)
+                .getMany()
         } catch (error) {
             throw new BadRequestException(error.message);
         }

@@ -42,7 +42,12 @@ export class ApartmentsService {
 
     async findAll() {
         try {
-            return await this.apartmentRepository.find()
+
+            return await this.apartmentRepository
+                .createQueryBuilder('apartments')
+                .leftJoinAndSelect('apartments.booking', 'booking')
+                .limit(11)
+                .getMany()
         } catch (error) {
             throw new BadRequestException(error.message);
         }
